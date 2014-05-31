@@ -10,7 +10,7 @@ The cards produced are clear and readable and a custom template can be provided 
 
 JiraCards uses the Jira REST API to get all the relevant data from Jira. You can provide a username and password for authentication. BasicAuth is used for authentication.
 
-On an A4 page 6 cards are rendered. The cards can then be easily guillotined out and then used on your physical board.
+On an A4 page 6 cards are rendered. The cards can then be easily guillotined out and used on your physical board.
 
 ## Installation
 
@@ -30,6 +30,21 @@ Install it:
 
     $ cd JiraCards
     $ python setup.py install
+
+### Setup a development environment
+
+First, get the latest source code:
+
+    $ git clone https://github.com/hypebeast/JiraCards.git
+
+Install dependencies:
+
+    $ cd JiraCards
+    $ make env
+
+Run JiraCards:
+
+    $ python bin/jira-cards -h
 
 ## Configuration
 
@@ -54,12 +69,14 @@ The following options are available:
   * **jira**: The URL of your Jira instance.
   * **user**: The username you want to use for authentication.
   * **password**: The password you want to use for authentication.
-  * **output**: The name of the output file.
-  * **board**: The Jira Board ID.
+  * **output**: The name of the output file for the generated cards.
+  * **board**: The Jira Board ID where to get the issues from.
   * **template**: The filename of the custom template. If no template is provided, the default template is used.
-  * **issueTypes**: The available issue types. T
   * **default_issue_color**: The default color for a issue.
-  * **color_**:
+  * **issueTypes**: The available issue types. It's possible to provide a custom color for every specified issue type. The list is comma sperated.
+  * **color_**: The color for an issue type. For example, if you specify an 'Blocker' as an issue type, you can add an 'color_blocker' option to the config file: *color_blocker = #FF0000*. The following replacements in issue type names are carried out (see the default config for examples):
+    * *Whitespaces* are converted to *_*.
+    * *-* are converted to *_*
 
 ## Usage
 
@@ -79,8 +96,9 @@ For an overview about all commands run JiraCards with the help options:
 
 The following commands are available:
 
-  * **gen**: This the default command. If JiraCards is called without a command this command will be executed. It reads Jira issues from the specified board and generates 
+  * **gen**: This the default command. If JiraCards is called without a command this command will be executed. It reads Jira issues from the specified board and generates a card for every found issue.
   * **show**: Prints the default template to stdout. The default template can be used to create a custom template.
+  * **tempdata**: Prints the available data which is available in a template.
 
 ### Command Line Options
 
@@ -88,10 +106,24 @@ For an overview about all commands run JiraCards with the help options:
 
     $ jira-cards -h
 
-TODO
+The following options are available:
+
+  * **-j, --jira**: The URL of your Jira instance.
+  * **-u, --user**: The username you want to use for authentication.
+  * **-p, --password**: The password you want to use for authentication.
+  * **-o, --output**: The name of the output file for the generated cards.
+  * **-b, --board**: The Jira Board ID where to get the issues from.
+  * **-t, --template**: The filename of the custom template. If no template is provided, the default template is used.
+  * **-c, --config**: The config filename.
 
 ## Custom Template
 
-It's possible to create a custom template in order to create different looking cards. To provide a custom 
+It's possible to create a custom template in order to create different looking cards. To provide a custom template use the following command:
 
-### Available 
+    $ jira-cards -t my_template.html
+
+### Available Template Data
+
+The avialable template data can be printed with the following command:
+
+    $ jira-cards tempdata

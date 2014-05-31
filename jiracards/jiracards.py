@@ -31,8 +31,11 @@ color_technische_story = #0000FF
 """
 
 
-def getBoardIssues(jira_url, boardId, user, password):
-    r = requests.get(jira_url + BOARD_API + boardId, auth=HTTPBasicAuth(user, password))
+def getBoardIssues(jira_url, boardId, user="", password=""):
+    if user == "":
+        r = requests.get(jira_url + BOARD_API + boardId)
+    else:
+        r = requests.get(jira_url + BOARD_API + boardId, auth=HTTPBasicAuth(user, password))
     data = r.json()
     return data['issuesData']['issues']
 
@@ -102,7 +105,7 @@ class AppBaseController(controller.CementBaseController):
             (['-c', '--config'], dict(action='store', help='Config file', dest='config'))
             ]
 
-    @controller.expose(hide=False, aliases=['cards'], help='Read issues from a Jira Board and creates a card for every found issue')
+    @controller.expose(hide=False, aliases=['gen'], help='Read issues from a Jira Board and creates a card for every found issue')
     def default(self):
         jira = self.app.config.get('controller.base', 'jira')
         user = self.app.config.get('controller.base', 'user')
@@ -180,6 +183,10 @@ class AppBaseController(controller.CementBaseController):
     @controller.expose(help='Prints the default template to stdout')
     def show(self):
         print DEFAULT_TEMPLATE
+
+    @controller.expose(help='Prints the available template data to stdout')
+    def tempdata(self):
+        pass
 
 
 class MyApp(foundation.CementApp):
