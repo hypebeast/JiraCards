@@ -19,11 +19,11 @@ LICENSE = open("LICENSE").read()
 setup(
     name='jira-cards',
     version=jiracards.__version__,
-    description='Jira-Cards prints agile cards for your physical board from a JIRA board or issues.',
+    description='JiraCards prints agile cards for your physical board from Jira. The issues are read from a Jira Agile Board or individual issues can be provided to create single cards.',
     long_description=(README),
     author='Sebastian Ruml',
     author_email='sebastian@sebastianruml.com',
-    url='https://github.com/hypebeast/jira-cards',
+    url='https://github.com/hypebeast/jiraCards',
     include_package_data=True,
     install_requires=[
         'cement >= 2.2.2',
