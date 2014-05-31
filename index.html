@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Jiracards by hypebeast</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/hypebeast/JiraCards">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/hypebeast/JiraCards/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/hypebeast/JiraCards/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Jiracards</h1>
+          <p>JiraCards prints agile cards for your physical board from Jira. The issues are read from a Jira Agile Board or individual issues can be provided to create single cards.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/hypebeast">hypebeast</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="jira-cards" class="anchor" href="#jira-cards"><span class="octicon octicon-link"></span></a>JIRA-CARDS</h1>
+
+<p>JiraCards prints agile cards for your physical board from Jira. The issues are read from a Jira Agile Board or individual issues can be provided to create single cards.</p>
+
+<h2>
+<a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>JiraCards makes it super easy to generate physical cards from digital Jira issues. By default it fetches Jira issues from a given Jira Agile Board and generates for every found issue on the board a physical card. The generated cards are written to a HTML file. This HTML file can be used to print the cards.</p>
+
+<p>The cards produced are clear and readable and a custom template can be provided to easily create custom looking cards.</p>
+
+<p>JiraCards uses the Jira REST API to get all the relevant data from Jira. You can provide a username and password for authentication. BasicAuth is used for authentication.</p>
+
+<p>On an A4 page 6 cards are rendered. The cards can then be easily guillotined out and used on your physical board.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a name="using-pip" class="anchor" href="#using-pip"><span class="octicon octicon-link"></span></a>Using pip</h3>
+
+<p>To install JiraCards:</p>
+
+<pre><code>$ sudo pip install jira-cards
+</code></pre>
+
+<h3>
+<a name="from-source" class="anchor" href="#from-source"><span class="octicon octicon-link"></span></a>From source</h3>
+
+<p>First, get the latest source code:</p>
+
+<pre><code>$ git clone https://github.com/hypebeast/JiraCards.git
+</code></pre>
+
+<p>Install it:</p>
+
+<pre><code>$ cd JiraCards
+$ python setup.py install
+</code></pre>
+
+<h3>
+<a name="setup-a-development-environment" class="anchor" href="#setup-a-development-environment"><span class="octicon octicon-link"></span></a>Setup a development environment</h3>
+
+<p>First, get the latest source code:</p>
+
+<pre><code>$ git clone https://github.com/hypebeast/JiraCards.git
+</code></pre>
+
+<p>Install dependencies:</p>
+
+<pre><code>$ cd JiraCards
+$ make env
+</code></pre>
+
+<p>Run JiraCards:</p>
+
+<pre><code>$ python bin/jira-cards -h
+</code></pre>
+
+<h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p>JiraCards reads the configuration from the following place:</p>
+
+<pre><code>$ ~/.jira-cards/config
+</code></pre>
+
+<p>The configuration file is created during the first startup of JiraCards. If you want to create the config file with the default options just execute the program:</p>
+
+<pre><code>$ jira-cards -h
+</code></pre>
+
+<h3>
+<a name="use-another-config-file" class="anchor" href="#use-another-config-file"><span class="octicon octicon-link"></span></a>Use another config file</h3>
+
+<p>If you want to use a different configuration file, you can call JiraCards with <em>--config</em> option:</p>
+
+<pre><code>$ jira-cards --config my_config
+</code></pre>
+
+<h3>
+<a name="configuration-options" class="anchor" href="#configuration-options"><span class="octicon octicon-link"></span></a>Configuration Options</h3>
+
+<p>The following options are available:</p>
+
+<ul>
+<li>
+<strong>jira</strong>: The URL of your Jira instance.</li>
+<li>
+<strong>user</strong>: The username you want to use for authentication.</li>
+<li>
+<strong>password</strong>: The password you want to use for authentication.</li>
+<li>
+<strong>output</strong>: The name of the output file for the generated cards.</li>
+<li>
+<strong>board</strong>: The Jira Board ID where to get the issues from.</li>
+<li>
+<strong>template</strong>: The filename of the custom template. If no template is provided, the default template is used.</li>
+<li>
+<strong>default_issue_color</strong>: The default color for a issue.</li>
+<li>
+<strong>issueTypes</strong>: The available issue types. It's possible to provide a custom color for every specified issue type. The list is comma sperated.</li>
+<li>
+<strong>color_</strong>: The color for an issue type. For example, if you specify an 'Blocker' as an issue type, you can add an 'color_blocker' option to the config file: <em>color_blocker = #FF0000</em>. The following replacements in issue type names are carried out (see the default config for examples):
+
+<ul>
+<li>
+<em>Whitespaces</em> are converted to <em>_</em>.</li>
+<li>
+<em>-</em> are converted to <em>_</em>
+</li>
+</ul>
+</li>
+</ul><h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>To list all available commands and options:</p>
+
+<pre><code>$ jira-cards -h
+</code></pre>
+
+<p>If you want to generate cards from your JIRA Agile Board with ID 19, execute the following command:</p>
+
+<pre><code>$ jira-cards -j http://jira.example.com -u username -p password -b 19 -o cards.html
+</code></pre>
+
+<h3>
+<a name="available-commands" class="anchor" href="#available-commands"><span class="octicon octicon-link"></span></a>Available Commands</h3>
+
+<p>For an overview about all commands run JiraCards with the help options:</p>
+
+<pre><code>$ jira-cards -h
+</code></pre>
+
+<p>The following commands are available:</p>
+
+<ul>
+<li>
+<strong>gen</strong>: This the default command. If JiraCards is called without a command this command will be executed. It reads Jira issues from the specified board and generates a card for every found issue.</li>
+<li>
+<strong>show</strong>: Prints the default template to stdout. The default template can be used to create a custom template.</li>
+<li>
+<strong>tempdata</strong>: Prints the available data which is available in a template.</li>
+</ul><h3>
+<a name="command-line-options" class="anchor" href="#command-line-options"><span class="octicon octicon-link"></span></a>Command Line Options</h3>
+
+<p>For an overview about all commands run JiraCards with the help options:</p>
+
+<pre><code>$ jira-cards -h
+</code></pre>
+
+<p>The following options are available:</p>
+
+<ul>
+<li>
+<strong>-j, --jira</strong>: The URL of your Jira instance.</li>
+<li>
+<strong>-u, --user</strong>: The username you want to use for authentication.</li>
+<li>
+<strong>-p, --password</strong>: The password you want to use for authentication.</li>
+<li>
+<strong>-o, --output</strong>: The name of the output file for the generated cards.</li>
+<li>
+<strong>-b, --board</strong>: The Jira Board ID where to get the issues from.</li>
+<li>
+<strong>-t, --template</strong>: The filename of the custom template. If no template is provided, the default template is used.</li>
+<li>
+<strong>-c, --config</strong>: The config filename.</li>
+</ul><h2>
+<a name="custom-template" class="anchor" href="#custom-template"><span class="octicon octicon-link"></span></a>Custom Template</h2>
+
+<p>It's possible to create a custom template in order to create different looking cards. To provide a custom template use the following command:</p>
+
+<pre><code>$ jira-cards -t my_template.html
+</code></pre>
+
+<h3>
+<a name="available-template-data" class="anchor" href="#available-template-data"><span class="octicon octicon-link"></span></a>Available Template Data</h3>
+
+<p>The avialable template data can be printed with the following command:</p>
+
+<pre><code>$ jira-cards tempdata
+</code></pre>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
