@@ -44,7 +44,7 @@ Install dependencies:
 
 Run JiraCards:
 
-    $ python bin/jira-cards -h
+    $ python jiracards/jira-cards.py -h
 
 ## Configuration
 

@@ -218,3 +218,6 @@ def main():
     finally:
         # close the app
         app.close()
+
+if __name__ == '__main__':
+    main()
