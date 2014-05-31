@@ -1,0 +1,5 @@
+*.pyc
+build
+dist
+jira_cards.egg-info
+env
