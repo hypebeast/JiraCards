@@ -21,13 +21,13 @@ output = cards.html
 board = 1
 template = mytemplate.html
 issueTypes = Story,Bug,Aufgabe,Sub-task,Analyse,Technische Story
-default_issue_color = #00FF00
-color_story = #00FF00
+default_issue_color = #007F00
+color_story = #007F00
 color_bug = #FF0000
-color_aufgabe = #00FF00
-color_sub_task = #00FF00
-color_analyse = #0000FF
-color_technische_story = #0000FF
+color_aufgabe = #007F00
+color_sub_task = #007F00
+color_analyse = #3366FF
+color_technische_story = #007F00
 """
 
 
@@ -87,13 +87,13 @@ class AppBaseController(controller.CementBaseController):
             board='1',
             config='config',
             issueTypes=['Story', 'Bug', 'Aufgabe', 'Sub-task', 'Analyse','Technische Story'],
-            default_issue_color='#00FF00',
-            color_story='#0000FF',
+            default_issue_color='#007F00',
+            color_story='#007F00',
             color_bug='#FF0000',
-            color_aufgabe='#00FF00',
-            color_sub_task='#00FF00',
-            color_analyse='#0000FF',
-            color_technische_story='#0000FF',
+            color_aufgabe='#007F00',
+            color_sub_task='#007F00',
+            color_analyse='#3366FF',
+            color_technische_story='#007F00',
             )
         arguments = [
             (['-j', '--jira'], dict(action='store', help='Jira URL', dest='jira')),

@@ -19,7 +19,11 @@ DEFAULT_TEMPLATE="""
             background: none;
         }
 
-        .page :first-child {
+        .page:first-child {
+            clear: both;
+        }
+
+        .page:not(:first-child) {
             page-break-before: always;
             clear: both;
         }
@@ -39,17 +43,29 @@ DEFAULT_TEMPLATE="""
         }
 
         .header {
+            display: block;
             position: relative;
             background-color: #FF0000;
             height: 30px;
         }
 
         .title {
+            float: left;
+            width: 180px;
             padding-left: 10px;
             padding-top: 1px;
             color: #FFF;
             font-size: 22px;
             font-weight: bold;
+        }
+
+        .ticket-type {
+            float: right;
+            position: relative;
+            margin-top: 4px;
+            margin-right: 10px;
+            font-size: 10px;
+            color: #FFF;
         }
 
         .summary {
@@ -112,6 +128,7 @@ DEFAULT_TEMPLATE="""
                 <div class="ticket-item" style="border-color: {{ ticket.cardcolor }}">
                     <div class="header" style="background-color: {{ ticket.cardcolor }}">
                         <div class="title">{{ ticket.key }}</div>
+                        <div class="ticket-type">{{ ticket.typeName }}</div>
                     </div>
                     <div class="summary">
                         <div class="summary-text">
