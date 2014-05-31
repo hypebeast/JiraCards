@@ -86,7 +86,7 @@ To list all available commands and options:
 
 If you want to generate cards from your JIRA Agile Board with ID 19, execute the following command:
 
-    $ jira-cards
+    $ jira-cards -j http://jira.example.com -u username -p password -b 19 -o cards.html
 
 ### Available Commands
 
