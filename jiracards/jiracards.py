@@ -77,7 +77,7 @@ def has_key(config, section, key):
 class AppBaseController(controller.CementBaseController):
     class Meta:
         label = 'base'
-        description = 'jira-cards reads tickets from a Jira board and creates nice cards that can be printed.'
+        description = 'jira-cards reads tickets from a Jira board and creates nice cards that can be printed out.'
         arguments_override_config = True
         config_defaults = dict(
             jira='',
@@ -102,7 +102,8 @@ class AppBaseController(controller.CementBaseController):
             (['-o', '--output'], dict(action='store', help='Output filename', dest='output')),
             (['-b', '--board'], dict(action='store', help='Jira board ID to get the tickets', dest='board')),
             (['-t', '--template'], dict(action='store', help='Template filename. The template file must be located in the template folder.', dest='template')),
-            (['-c', '--config'], dict(action='store', help='Config file', dest='config'))
+            (['-c', '--config'], dict(action='store', help='Config file', dest='config')),
+            (['--color'], dict(action='store', help='Cards color (overrides the color definition from the config file)', dest='color'))
             ]
 
     @controller.expose(hide=False, aliases=['gen'], help='Read issues from a Jira Board and creates a card for every found issue')
@@ -117,7 +118,7 @@ class AppBaseController(controller.CementBaseController):
         defaultIssueColor = self.app.config.get('controller.base', 'default_issue_color')
         template = None
 
-        # Set options from config file
+        # Set options from the config file
         if has_key(self.app.config, 'jira-cards', 'jira'):
             jira = self.app.config.get('jira-cards', 'jira')
         if has_key(self.app.config, 'jira-cards', 'user'):
@@ -151,9 +152,16 @@ class AppBaseController(controller.CementBaseController):
         if self.app.pargs.config:
             config = self.app.pargs.config
 
+        # Get the card colors from the config and set the color to the appropriate issue type
         colors = {}
         getColors(self.app.config, 'controller.base', issueTypes, colors)
         getColors(self.app.config, 'jira-cards', issueTypes, colors)
+
+        # If a color on the command line was specified override the colors from
+        # the config file
+        if self.app.pargs.color:
+            for color in colors:
+                color = self.app.pargs.color
 
         if not jira:
             self.app.log.info('No JIRA URL specified. Please, provide a Jira URL.')
@@ -181,11 +189,11 @@ class AppBaseController(controller.CementBaseController):
         pass
 
     @controller.expose(help='Prints the default template to stdout')
-    def show(self):
+    def printtemplate(self):
         print DEFAULT_TEMPLATE
 
     @controller.expose(help='Prints the available template data to stdout')
-    def tempdata(self):
+    def printdata(self):
         pass
 
 
