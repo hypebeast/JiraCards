@@ -77,7 +77,7 @@ def compileTemplate(tickets, template=""):
         template = Template(DEFAULT_TEMPLATE)
         return template.render(tickets=tickets)
 
-def setIssuesColor(tickets, colors, defaultColor):
+def setColorForIssueTypes(tickets, colors, defaultColor):
     for ticket in tickets:
         if ticket.typeName != '':
             issueType = ticket.typeName.lower().strip().replace(' ', '_').replace('-', '_')
@@ -85,6 +85,15 @@ def setIssuesColor(tickets, colors, defaultColor):
                 ticket.cardcolor = colors[issueType]
             else:
                 ticket.cardcolor = defaultColor
+
+def setColor(tickets, color):
+    for ticket in tickets:
+        ticket.cardcolor = color
+
+def setProjectColor(tickets, project, color):
+    for ticket in tickets:
+        if ticket.key.startswith(project):
+            ticket.cardcolor = color
 
 def getColors(config, section, issueTypes, colors):
     for issueType in issueTypes:
@@ -139,8 +148,10 @@ class AppBaseController(controller.CementBaseController):
             (['-b', '--board'], dict(action='store', help='Jira board ID to get the tickets', dest='board')),
             (['-t', '--template'], dict(action='store', help='Template filename. The template file must be located in the template folder.', dest='template')),
             (['-c', '--config'], dict(action='store', help='Config file', dest='config')),
-            (['--color'], dict(action='store', help='Cards color (overrides the color definition from the config file)', dest='color')),
-            (['issues'], dict(nargs='*', help='Issue keys'))
+            (['--color'], dict(action='store', help='Card color (overrides the color definitions from the config file)', dest='color')),
+            (['--project-color'], dict(action='store', help='Card color for issues from a project specified with the --project option', dest='projectcolor')),
+            (['--project'], dict(action='store', help='Cards form this project will be generated with the color from the --project-color option', dest='project')),
+            (['issues'], dict(nargs='*', help='Issue keys for the issues command'))
             ]
 
     def readConfig(self):
@@ -216,12 +227,14 @@ class AppBaseController(controller.CementBaseController):
 
         self.app.log.info("Found " + str(len(issues)) + " issues")
 
-        # Set color for every issue
-        setIssuesColor(issues, self.colors, self.defaultIssueColor)
+        # Set color for every issue type
+        setColorForIssueTypes(issues, self.colors, self.defaultIssueColor)
 
         if self.app.pargs.color:
-            for issue in issues:
-                issue.cardcolor = self.app.pargs.color
+            setColor(issues, self.app.pargs.color)
+
+        if self.app.pargs.projectcolor and self.app.pargs.project:
+            setProjectColor(issues, self.app.pargs.project, self.app.pargs.projectcolor)
 
         self.app.log.info('Generating cards')
         self.generateCards(issues)
@@ -238,11 +251,14 @@ class AppBaseController(controller.CementBaseController):
         self.app.log.info('Getting Jira issues')
         issues = getIssues(self.jira, self.app.pargs.issues, self.user, self.password)
 
-        setIssuesColor(issues, self.colors, self.defaultIssueColor)
+        # Set color for every issue type
+        setColorForIssueTypes(issues, self.colors, self.defaultIssueColor)
 
         if self.app.pargs.color:
-            for issue in issues:
-                issue.cardcolor = self.app.pargs.color
+            setColor(issues, self.app.pargs.color)
+
+        if self.app.pargs.projectcolor and self.app.pargs.project:
+            setProjectColor(issues, self.app.pargs.project, self.app.pargs.projectcolor)
 
         self.app.log.info('Generating cards')
         self.generateCards(issues)
